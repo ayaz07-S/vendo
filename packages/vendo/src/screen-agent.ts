@@ -684,9 +684,9 @@ const judgeScreen = async (
  * A message rather than a section of the brief: the brief heads a cached prefix
  * shared by every assembly, and this is one app's file.
  *
- * REMIXES ONLY. `source` is filled from the source this run starts on, which
- * exists for a seeded row and nothing else — an ordinary edit's first message is
- * still the ask, byte for byte.
+ * SAVED SCREEN SOURCE. `source` is filled from the screen this run starts on,
+ * whether that source came from a seeded row or an ordinary saved app. When
+ * present, the first message puts that source in front of the model before the ask.
  */
 const startingSource = (source: string | undefined): string =>
   source === undefined ? "" : `This app already has a screen: the host's own component, ported into this
@@ -1279,7 +1279,7 @@ export async function assembleScreen(
     messages: [{
       id: `screen_${input.appId}`,
       role: "user",
-      parts: [{ type: "text", text: `${startingSource(input.source)}${input.request}` }],
+      parts: [{ type: "text", text: `You are writing app ${input.appId}.\n\n${startingSource(input.source)}${input.request}` }],
     }],
     // The listings are read ONCE and handed back verbatim: a closed loadout has
     // nothing to discover, so re-reading them mid-run would be a second projection
